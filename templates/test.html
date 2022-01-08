@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<hr>
+{% for story in stories %}
+{{story.author.email}}
+{{story.author.nickname}}
+{{story.author.first_name}}
+{% endfor %}
+{% endblock %}

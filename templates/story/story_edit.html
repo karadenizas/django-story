@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Edit Story{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <h4 class="text-center">Edit Story</h4><hr>
+        <div class="col-7">
+            <h5 class="text-center">Story</h5><hr>
+            <form method="POST">
+                {{ story_form }}
+                {% csrf_token %}
+                <div class="text-center">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Apply</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-5">
+            <h5 class="text-center">Characters</h5><hr>
+            <div id=simdi>
+            {% include 'story/character_create.html' %}
+            </div>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCharacter" aria-expanded="false" aria-controls="flush-collapseOne">
+                      <p class="text-secondary fw-bold">Create Character</p>
+                    </button>
+                  </h2>
+                  <div id="flush-collapseCharacter" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <form method="post">
+                            <p>{{ character_form.name }}</p>
+                            <p>{{ character_form.age }}</p>
+                            <p>{{ character_form.species }}</p>
+                            <p>{{ character_form.gender }}</p>
+                            <p>{{ character_form.review }}</p>
+                            {% csrf_token %}
+                            <div class="text-center">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm" hx-post="{% url 'story:create-character' story.slug %}" hx-target="#simdi">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

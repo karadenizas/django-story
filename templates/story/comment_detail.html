@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}Detail Comment Story{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <h5 class="text-center"> {{ comment.title }} </h5>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"> {{ comment.title }} </h5>
+                    <p class="card-text"> {{ comment.content }} </p>
+                    <div class="col-auto">
+                        <span class="text-secondary text-secondary">{{ comment | get_rate:'LIKE' }}</span>
+                        <span class="text-secondary text-secondary">{{ comment | get_rate:'DISLIKE' }}</span>
+                        <span class="text-secondary">| author: {{ comment.author }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <h5 class="text-center">Characters</h5>
+            {% for character in characters %}
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#character{{ forloop.counter }}" aria-expanded="false" aria-controls="flush-collapseOne">
+                        {{ character.name }}
+                    </button>
+                    </h2>
+                    <div id="character{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <p>age: {{ character.age }} </p>
+                        <p>species: {{ character.species }} </p>
+                        <p>gender: {{ character.gender }} </p>
+                        <p>review: {{ character.review }} </p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

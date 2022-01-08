@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %} Home - Story Community {% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <button type="button" hx-target="#mainContent" hx-get="new-stories/" class="btn btn-outline-secondary btn-sm">New Stories</button>
+            <button type="button" hx-target="#mainContent" hx-get="popular-stories/" class="btn btn-outline-secondary btn-sm">Popular Stories</button>
+            <button type="button" hx-target="#mainContent" hx-get="completed-stories/" class="btn btn-outline-secondary btn-sm">Completed Stories</button>
+        </div>
+    </div>
+</div>
+<br>
+<div id="mainContent">
+    {% include 'story/new_stories.html' %}
+</div>
+{% endblock %}

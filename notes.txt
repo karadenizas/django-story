@@ -1,0 +1,19 @@
+-story save ederken slug kontrolu sirasinda performans kaybi olusabilir, bilmiyorum.
+-htmx icin yaratilan urlleri yok et. yani disaridan biri url adres bara girince o template render edemesin.
+-index'te iki defa new-stories templatesi coz.
+-pagination butonlari buton degil
+-bir user sadece bir rate verebilir
+
+info:
+-like basarken ikinci basista url hatasi veriyor(buton icerikleri ile ilgili olabilir)
+
+########################33
+DB_OPTI-debug-toolbar
+user = 10000
+story = 10000
+comment story = 20000
+character = 40000(20000 story, 20000 comment)
+rating = 1000000
+comment_rating = 1000000
+---measuring----
+1. default 945.74 ms (34 queries including 31 similar )
