@@ -5,5 +5,6 @@ story/__pycache__/
 story/migrations/
 story/templatetags/__pycache__/
 core/__pycache__/
+core/settings.py
 users/__pycache__/
 users/migrations/
