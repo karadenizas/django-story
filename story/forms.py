@@ -17,7 +17,7 @@ class StoryUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Story
-        fields = ['title', 'content', 'draft']
+        fields = ['title', 'content','draft']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'placeholder': 'enter a story name'}),
             'content': forms.Textarea(attrs={'class': 'form-control form-control-sm', 'placeholder': 'story'}),

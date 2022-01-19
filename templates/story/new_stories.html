@@ -7,7 +7,7 @@
                 <div class="card-body">
                   <h5 class="card-title"><a href="{% url 'story:detail-story' story.slug %}" class="text-dark" style="text-decoration: none;">{{ story.title }}</a></h5>
                   <p class="card-text"><a href="{% url 'story:detail-story' story.slug %}" class="text-dark" style="text-decoration: none;">{{ story.content | truncatewords:20 }}</a></p>
-                  <span class="text-secondary"> {{ story.slug | story_rate |join:" - " }}</span>
+                   <span class="text-secondary">{{ story.slug | story_rate }}</span>
                   <span class="text-secondary">| author: {{ story.author }}</span>
                 </div>
             </div>

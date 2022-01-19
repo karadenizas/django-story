@@ -7,17 +7,19 @@ from .views import (
     CompletedStoriesListView,
 
     StoryCreateView,
-    character_create,
-    story_edit,
-    story_detail,
+    StoryUpdateView,
+    StoryCommentListView,
+    ## character
+    HtmxCharacterCreateView,
+    HtmxCommentCharacterCreateView,
     ## rate
-    story_rate,
-    comment_rate,
+    # story_rate,
+    # comment_rate,
+    HtmxRateUpdateView,
     ## comment
     comment_create,
-    comment_edit,
-    comment_character_create,
     StoryCommentDetailView,
+    StoryCommentUpdateView,
     #### TEST
     TestView,
 )
@@ -31,17 +33,16 @@ urlpatterns = [
     path('completed-stories/', CompletedStoriesListView.as_view(), name='completed-stories'),
     ## Stories
     path('create/', StoryCreateView.as_view(), name='create-story'),
-    path('edit/<str:slug>/', story_edit, name='edit-story'),
-    path('detail/<str:slug>/', story_detail, name='detail-story'),
+    path('edit/<str:slug>/', StoryUpdateView.as_view(), name='edit-story'),
+    path('detail/<str:slug>/', StoryCommentListView.as_view(), name='detail-story'),
     ## Characters
-    path('create-character/<str:slug>/', character_create, name='create-character'),
-    path('create-comment-character/<str:slug>/', comment_character_create, name='create-comment-character'),
+    path('create-character/<str:slug>/', HtmxCharacterCreateView.as_view(), name='create-character'),
+    path('create-comment-character/<str:slug>/', HtmxCommentCharacterCreateView.as_view(), name='create-comment-character'),
     ## Rate
-    path('check-story-rate/<str:slug>/', story_rate, name='story-rate'),
-    path('check-comment-rate/<str:slug>/', comment_rate, name='comment-rate'),
+    path('check-rate/<str:slug>/', HtmxRateUpdateView.as_view(), name='rate'),
     ## Comment
     path('create/comment/<str:slug>/',comment_create, name='comment-create' ),
-    path('create/edit/<str:slug>/',comment_edit, name='comment-edit' ),
+    path('create/edit/<str:slug>/',StoryCommentUpdateView.as_view(), name='comment-edit' ),
     path('comment/detail/<str:slug>/', StoryCommentDetailView.as_view(), name='comment-detail'),
     ## TEST
     path('test/', TestView.as_view())

@@ -3,6 +3,11 @@
 -index'te iki defa new-stories templatesi coz.
 -pagination butonlari buton degil
 -bir user sadece bir rate verebilir
+-StoryCommentListView'da stoy ve characterleri iki ayri query'de getiriyorum. bunu tek queryde getirmenin yolu olmali!
+-Url isimlendirmeler mantiksiz olmus. create/comment vs. gibi. duzenle.
+-Password change ve forgot kisimlarini yap.
+-commentlere pagination eklenecek.
+-bos comment olusturmaya calistiginda hata veriyor ve bos olarak db kaydediyor. sonradan storye girmeye calisinca hata veriyor bunu duzelt.
 
 info:
 -like basarken ikinci basista url hatasi veriyor(buton icerikleri ile ilgili olabilir)

@@ -6,6 +6,7 @@
 <br>
 <div class="container">
     <div class="row justify-content-center">
+        <h4 class="text-center">Story Comment</h4><hr>
         <div class="col-8">
             <h5 class="text-center"> {{ comment.title }} </h5>
             <div class="card">
@@ -13,8 +14,7 @@
                     <h5 class="card-title"> {{ comment.title }} </h5>
                     <p class="card-text"> {{ comment.content }} </p>
                     <div class="col-auto">
-                        <span class="text-secondary text-secondary">{{ comment | get_rate:'LIKE' }}</span>
-                        <span class="text-secondary text-secondary">{{ comment | get_rate:'DISLIKE' }}</span>
+                        <span class="text-secondary text-secondary">{{ comment.slug | comment_rate }}</span>
                         <span class="text-secondary">| author: {{ comment.author }}</span>
                     </div>
                 </div>

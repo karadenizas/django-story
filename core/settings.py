@@ -84,9 +84,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django-story',
-        'USER': 'postgres',
-        'PASSWORD': 'ahmetsalih',
+        'NAME': 'djangostory',
+        'USER': 'salih',
+        'PASSWORD': 'password28',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -141,3 +141,15 @@ STATICFILES_DIRS = ('static',)
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# CELERY
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_IMPORTS = ['story.tasks']
+# CELERY_TIMEZONE = 'UTC'

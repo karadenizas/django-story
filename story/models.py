@@ -1,3 +1,4 @@
+from datetime import datetime
 import itertools
 
 from django.db import models
@@ -5,6 +6,8 @@ from django.utils.text import slugify
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
+from django.db.models import Count, Sum
+from django.db.models.functions import Coalesce
 
 from users.models import MyUser
 
@@ -20,7 +23,14 @@ class Story(models.Model):
     content = models.TextField(max_length=2500, default='')
     draft = models.BooleanField(default=True)
     completed = models.BooleanField(default=False)
-    expiration = models.DateTimeField(default=timezone.now()+timezone.timedelta(days=1))
+    expiration = models.DateTimeField(
+        default=timezone.now()+timezone.timedelta(days=1),
+        validators=[
+            MinValueValidator(timezone.now()),
+            MaxValueValidator(timezone.now()+timezone.timedelta(days=1))
+        ]
+    )
+    added_celery = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -61,6 +71,7 @@ class StoryComment(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     content = models.TextField(max_length=2500, default='')
     draft = models.BooleanField(default=True)
+    attachment = models.BooleanField(default=False)
     expiration = models.DateTimeField(default=timezone.now()+timezone.timedelta(days=1))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -112,10 +123,6 @@ class Character(models.Model):
 
 
 class Rating(models.Model):
-    RATE_CHOICES = [
-        ('LIKE', 'like'),
-        ('DISLIKE', 'dislike'),
-    ]
     story = models.ForeignKey(
         Story,
         on_delete=models.CASCADE,
@@ -126,7 +133,7 @@ class Rating(models.Model):
         on_delete=models.CASCADE,
         related_name='rating'
     )
-    rate = models.CharField(max_length=7, choices=RATE_CHOICES)
+    rate = models.SmallIntegerField(validators=[MinValueValidator(-1), MaxValueValidator(1)], default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -138,14 +145,10 @@ class Rating(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.created_at}'
+        return f'{self.story}'
 
 
 class CommentRating(models.Model):
-    RATE_CHOICES = [
-        ('LIKE', 'like'),
-        ('DISLIKE', 'dislike'),
-    ]
     comment = models.ForeignKey(
         StoryComment,
         on_delete=models.CASCADE,
@@ -156,9 +159,16 @@ class CommentRating(models.Model):
         on_delete=models.CASCADE,
         related_name='comment_rating'
     )
-    rate = models.CharField(max_length=7, choices=RATE_CHOICES)
+    rate = models.SmallIntegerField(validators=[MinValueValidator(-1), MaxValueValidator(1)], default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['comment', 'user'], name='comment rating validation'
+            )
+        ]
 
     def __str__(self):
         return f'{self.created_at}'

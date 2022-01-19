@@ -1,1 +1,6 @@
 venv/
+notes.txt
+.vscode/
+story/__pycache__/
+core/__pycache__/
+users/__pycache__/

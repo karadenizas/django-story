@@ -10,30 +10,38 @@
             <h5 class="text-center">{{ story.title }}</h5>
             <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">{{ story.title }}</h5>
+                  <h5 class="card-title"><strong>{{ story.title }}</strong></h5>
                   <p class="card-text">{{ story.content }}</p>
+                  <hr>
+                  {% if attachment_stories %}
+                  {% for story in attachment_stories %}
+                  <p class="card-text"><strong>{{ story.title }}</strong></p>
+                  <p class="card-text">{{ story.content }}</p>
+                  <span class="text-secondary">author: {{ story.author }}</span>
+                  <hr>
+                  {% endfor %}
+                  {% endif %}
                       <div class="row">
                           <div class="col-auto">
-                            <span class="text-secondary text-secondary">{{ story | get_rate:'LIKE' }}</span>
-                            <span class="text-secondary text-secondary">{{ story | get_rate:'DISLIKE' }}</span>
+                            <span class="text-secondary text-secondary">{{ story.slug | story_rate }}</span>
                             <span class="text-secondary">| author: {{ story.author }}</span>
                           </div>
                           <div class="col-auto">
                             <form>
-                                <input type="hidden" name="rate" value="LIKE">
-                                <button type="button" id="likeButton" class="btn btn-default btn-sm text-secondary" hx-post="{% url 'story:story-rate' story.slug %}" hx-target="#likeButton" hx-swap="outerHTML">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-                                  </svg>
+                                <input type="hidden" name="story_rate" value="1">
+                                <button type="button" id="likeButton" class="btn btn-default btn-sm text-secondary" hx-post="{% url 'story:rate' story.slug %}" hx-target="#likeButton" hx-swap="outerHTML">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                    </svg>
                                 </button>
                             </form>
                           </div>
                           <div class="col-auto">
                             <form>
-                                <input type="hidden" name="rate" value="DISLIKE">
-                                <button type="button" id="dislikeButton" class="btn btn-default btn-sm text-secondary" hx-post="{% url 'story:story-rate' story.slug %}" hx-target="#dislikeButton" hx-swap="outerHTML">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
-                                      <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                                <input type="hidden" name="story_rate" value="-1">
+                                <button type="button" id="dislikeButton" class="btn btn-default btn-sm text-secondary" hx-post="{% url 'story:rate' story.slug %}" hx-target="#dislikeButton" hx-swap="outerHTML">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                 </button>
                             </form>
@@ -69,7 +77,7 @@
     <div class="col-8">
         <form action="{% url 'story:comment-create' story.slug %}" method="post">
             <div class="input-group mb-3">
-                <input type="text" name="deger" value="" class="form-control form-control-sm" placeholder="enter a title for continue the story" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <input type="text" name="title" value="" class="form-control form-control-sm" placeholder="enter a title for continue the story" aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button class="btn btn-outline-secondary btn-sm" type="submit" id="button-addon2">Continue</button>
                 {% csrf_token %}
             </div>
@@ -87,26 +95,25 @@
                 <div class="container">
                 <div class="row">
                     <div class="col-auto">
-                        <span class="text-secondary text-secondary">{{ comment | get_comment_rate:'LIKE' }}</span>
-                        <span class="text-secondary text-secondary">{{ comment | get_comment_rate:'DISLIKE' }}</span>
+                        <span class="text-secondary text-secondary">{{ comment.slug | comment_rate }}</span>
                         <span class="text-secondary">| author: {{ comment.author }}</span>
                     </div>
                     <div class="col-auto">
                         <form>
-                            <input type="hidden" name="rate" value="LIKE">
-                            <button type="button" id="c{{forloop.counter}}commentlikeButton" class="btn btn-default btn-sm text-secondary" hx-post="{% url 'story:comment-rate' comment.slug %}" hx-target="#c{{forloop.counter}}commentlikeButton" hx-swap="outerHTML">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-                              </svg>
+                            <input type="hidden" name="comment_rate" value="1">
+                            <button type="button" id="c{{forloop.counter}}commentlikeButton" class="btn btn-default btn-sm text-secondary" hx-post="{% url 'story:rate' comment.slug %}" hx-target="#c{{forloop.counter}}commentlikeButton" hx-swap="outerHTML">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
                             </button>
                         </form>
                       </div>
                       <div class="col-auto">
                         <form>
-                            <input type="hidden" name="rate" value="DISLIKE">
-                            <button type="button" id="c{{forloop.counter}}commentdislikeButton" class="btn btn-default btn-sm text-secondary" hx-post="{% url 'story:comment-rate' comment.slug %}" hx-target='#c{{forloop.counter}}commentdislikeButton' hx-swap="outerHTML">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
-                                  <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                            <input type="hidden" name="comment_rate" value="-1">
+                            <button type="button" id="c{{forloop.counter}}commentdislikeButton" class="btn btn-default btn-sm text-secondary" hx-post="{% url 'story:rate' comment.slug %}" hx-target='#c{{forloop.counter}}commentdislikeButton' hx-swap="outerHTML">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
                                 </svg>
                             </button>
                         </form>

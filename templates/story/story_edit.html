@@ -9,7 +9,15 @@
         <div class="col-7">
             <h5 class="text-center">Story</h5><hr>
             <form method="POST">
-                {{ story_form }}
+                {{ story_form.as_p }}
+                {% if story.added_celery == False %}
+                <label for="hour-select">Expiration Hour:</label>
+                <select name="hour" id="hour-select">
+                  {% for number in loop_times %}
+                  <option value="{{number}}">{{number}}</option>
+                  {% endfor %}
+                </select>
+                {% endif %}
                 {% csrf_token %}
                 <div class="text-center">
                 <button type="submit" class="btn btn-outline-secondary btn-sm">Apply</button>
