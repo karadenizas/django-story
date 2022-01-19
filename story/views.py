@@ -1,14 +1,12 @@
-from typing import List
 from django.http.response import Http404, HttpResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, CreateView, UpdateView, TemplateView, FormView
+from django.views.generic import ListView, CreateView, UpdateView
 from django.utils import timezone
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from django.urls import reverse
 from django.views.generic.detail import DetailView
 from django.db.models import Count, Sum
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 from .models import Character, Story, Rating, StoryComment, CommentRating

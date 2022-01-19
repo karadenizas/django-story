@@ -2,5 +2,8 @@ venv/
 notes.txt
 .vscode/
 story/__pycache__/
+story/migrations/
+story/templatetags/__pycache__/
 core/__pycache__/
 users/__pycache__/
+users/migrations/

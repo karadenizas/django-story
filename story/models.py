@@ -1,4 +1,3 @@
-from datetime import datetime
 import itertools
 
 from django.db import models
@@ -6,8 +5,6 @@ from django.utils.text import slugify
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
-from django.db.models import Count, Sum
-from django.db.models.functions import Coalesce
 
 from users.models import MyUser
 
